@@ -1,6 +1,30 @@
-version: '3'
+version: '3.4'
 
 services:
+
+  config-server:
+    build: ./config-server
+    working_dir: /config-server
+    volumes:
+      - ./config-server:/config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - my-net
+    depends_on:
+      - rabbitmq
+
+  client1:
+    build: ./cloud.config.client1
+    working_dir: /client1
+    volumes:
+      - ./client1:/client1
+    ports:
+      - "8081:8081"
+    networks:
+      - my-net
+    depends_on:
+      - config-server
 
   rabbitmq:
     image: rabbitmq:3.8.2-management
@@ -8,3 +32,7 @@ services:
       - 5672:5672
       - 15672:15672
 
+
+networks:
+  my-net:
+    driver: bridge
