@@ -16,9 +16,9 @@ services:
 
   client1:
     build: ./cloud.config.client1
-    working_dir: /client1
+    working_dir: /cloud.config.client1
     volumes:
-      - ./client1:/client1
+      - ./cloud.config.client1:/cloud.config.client1
     ports:
       - "8081:8081"
     networks:
@@ -31,6 +31,8 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - my-net
 
 
 networks:
